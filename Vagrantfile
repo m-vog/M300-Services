@@ -18,10 +18,6 @@ Vagrant.configure("2") do |config|
       #web.vm.synced_folder ".", "/var/www/html"
       web.vm.provision "shell", inline: <<-SHELL
             dnf install -y httpd mariadb-server
-            #systemctl enable firewalld
-            #systemctl start firewalld
-            #firewall-cmd --zone=public --add-service=http
-            #firewall-cmd --reload
             systemctl enable httpd
             systemctl enable mariadb
             systemctl start httpd
