@@ -21,9 +21,13 @@ Vagrant.configure("2") do |config|
             dnf install -y httpd mariadb-server
             systemctl enable httpd
             systemctl enable mariadb
+            systemctl enable firewalld
+            systemctl start firewalld
             systemctl start httpd
             systemctl start mariadb
             systemctl status httpd
+            firewall-cmd --zone=public --permanent --add-port=80/tcp 
+            firewall-cmd --reload
 SHELL
         end
   config.vm.define "db" do |db|
@@ -37,11 +41,12 @@ SHELL
       end
       db.vm.provision "shell", inline: <<-SHELL
             dnf install -y httpd mariadb-server
-            systemctl enable httpd
             systemctl enable mariadb
-            systemctl start httpd
+            systemctl enable firewalld
+            systemctl start firewalld
             systemctl start mariadb
-            systemctl status httpd
+            firewall-cmd --zone=public --permanent --add-port=3306/tcp 
+            firewall-cmd --reload
 SHELL
         end
 end
