@@ -5,6 +5,7 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+
 Vagrant.configure("2") do |config|
   config.vm.define "web" do |web|
     web.vm.box = "centos/8"
@@ -17,6 +18,24 @@ Vagrant.configure("2") do |config|
       end
       #web.vm.synced_folder ".", "/var/www/html"
       web.vm.provision "shell", inline: <<-SHELL
+            dnf install -y httpd mariadb-server
+            systemctl enable httpd
+            systemctl enable mariadb
+            systemctl start httpd
+            systemctl start mariadb
+            systemctl status httpd
+SHELL
+        end
+  config.vm.define "db" do |db|
+    db.vm.box = "centos/8"
+    db.vm.hostname = "cent8-db01"
+    db.vm.network "public_network", ip:"192.168.1.11"
+      db.vm.network "forwarded_port", guest: 80, host:8081, auto_correct:true
+      db.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"
+        vb.gui = false
+      end
+      db.vm.provision "shell", inline: <<-SHELL
             dnf install -y httpd mariadb-server
             systemctl enable httpd
             systemctl enable mariadb
