@@ -34,7 +34,7 @@ SHELL
     db.vm.box = "centos/8"
     db.vm.hostname = "cent8-db01"
     db.vm.network "public_network", ip:"192.168.1.11"
-      db.vm.network "forwarded_port", guest: 80, host:8081, auto_correct:true
+      db.vm.network "forwarded_port", guest: 3306, host:3306, auto_correct:true
       db.vm.provider "virtualbox" do |vb|
         vb.memory = "1024"
         vb.gui = false
