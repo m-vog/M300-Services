@@ -21,3 +21,56 @@ Siehe LB02
 Siehe LB02
 
 ### K3
+#### Wordpress mit Docker
+##### Schritt 1: docker-compose installieren
+Bevor man startet, muss man `docker-compose` installieren.
+```bash
+Binary herunterladen:
+$ sudo curl -L "https://github.com/docker/compose/releases/download/1.26.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+Executable Berechtigung setzen
+$ sudo chmod +x /usr/local/bin/docker-compose
+
+Symlink erstellen
+$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+Installationserfolg überprüfen
+$ docker-compose --version
+docker-compose version 1.26.1, build f216ddbf
+```
+##### Schritt 2: Projekt definieren
+1. Ein leeres Projektverzeichnis anlegen: `mkdir wordpress`
+2. In das neue Verzeichnis wechseln: `cd wordpress`
+3. `docker-compose.yaml`-File erstellen: `touch docker-compose.yaml`
+
+Inhalt des `docker-compose.yaml`-File:
+```perl
+version: '3.3'
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8080:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+       WORDPRESS_DB_NAME: wordpress
+volumes:
+    db_data: {}
+```
+4. Projekt bauen: `docker-compose up -d`
