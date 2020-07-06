@@ -74,3 +74,10 @@ volumes:
     db_data: {}
 ```
 4. Projekt bauen: `docker-compose up -d`
+5. Testing: Die Website ist unter `192.168.132.24:8080` erreichbar.
+
+#### Minecraftserver mit Docker
+Ein fixfertiges Image ist bereits auf Dockerhub erhältlich. Mit dem folgendem Befehl, lädt man das Image herunter und startet es.
+
+`docker run -d -it -e EULA=TRUE -p 25565:25565 -v /home/ubuntu/docker/minecraftdata:/data --name mc itzg/minecraft-server`
+
