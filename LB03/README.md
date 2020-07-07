@@ -130,4 +130,41 @@ Wenn der obere Command keinen Output generiert, läuft kein Container auf dem Po
 Anschliessend müssen wir die User ID von unserem neuen Prometheus-User herausfinden.
 
 ```bash
+cat /etc/passwd | grep prometheus
 ```
+Der Output sieht etwa so aus:
+```bash
+prometheus:x:996:996:/home/prometheus:/bin/false
+```
+Hier sieht man, dass die User ID vom Prometheus-User 996 ist.
+
+So kann man den Container starten:
+```bash
+docker run -d -p 9090:9090 --user 996:996 \ 
+--net=host \
+-v /etc/prometheus/prometheus.yml \ 
+-v /data/prometheus \ 
+prom/prometheus \ 
+--config.file="/etc/prometheus/prometheus.yml" \ 
+--storage.tsdb.path="/data/prometheus"
+```
+
+Hier eine Erklärung der Parameter von unserer Quelle:
+<cite>    -d : stands for detached mode. The container will run in the background. You can have a shell to run commands in the container, but quitting it won’t stop the container.
+    -p : stands for port. As containers are running in their own environments, they also have their own virtual networks. As a consequence, you have to bind your local port to the “virtual port” of Docker (here 9090)
+    -v : stands for volume. This is related to “volume mapping” which consists in mapping directories or files on your local system to directories in the container.
+    –config.file : the configuration file to be used by the Prometheus Docker container.
+    –storage.tsdb.path : the location where Prometheus is going to store data (i.e the time series stored).
+    –net: we want the Prometheus Docker container to share to same network as the host. This way, we can configure exporters in individual containers and expose them to the Prometheus Docker container.</cite>
+
+Um zu Überprüfen, dass alles richtig funktioniert kann man folgendes ausführen:
+```bash
+$ docker container ls -a
+CONTAINER ID        IMAGE               COMMAND                         CREATED              STATUS              PORTS                        NAMES
+gfre156415ea78      prom/prometheus     "/bin/prometheus --con.."       About a minute ago   Up 
+0.0.0.0:9090 ->9090/tcp      modest_hypatia
+```
+
+Auf das Web-GUI kann man über <IP>:9090 zugreifen.
+Das GUI sieht wie folgt aus:
+![Prometheus GUI](https://github.com/m-vog/M300-Services/blob/master/LB03/img/prometheus.png)
