@@ -84,3 +84,50 @@ Ein fixfertiges Image ist bereits auf Dockerhub erhältlich. Mit dem folgendem B
 `docker run -d -it -e EULA=TRUE -p 25565:25565 -v /home/ubuntu/docker/minecraftdata:/data --name mc itzg/minecraft-server`
 
 ![minecraft server](https://github.com/m-vog/M300-Services/blob/master/LB03/img/mc.png)
+
+### K4
+#### Überwachung und Benachrichtigung
+Konzept: Prometheus-Container als Überwachungstool, Grafana als Visualisierungstool
+##### Prometheus
+A) Installation
+
+Als erstes muss man einen neuen User mit dem Namen "prometheus"  anlegen
+```bash
+$ sudo useradd -rs /bin/false prometheus
+```
+Anschliessend im /etc Verzeichnis einen neuen Ordner und ein Konfigurationsfile für Prometheus  anlegen
+```bash
+$ sudo mkdir /etc/prometheus
+$ cd /etc/prometheus/ && sudo touch prometheus.yml
+```
+Als nächstes die Berechtigungen richtig setzen
+
+```bash
+$ sudo chown prometheus:prometheus /data/prometheus /etc/prometheus/*
+```
+B) Konfiguration
+
+Das Konfigurationsfile muss wie folgt angepasst werden:
+
+```bash
+$ vim /etc/prometheus/prometheus.yml
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 10s
+    target_groups:
+      - targets: ['localhost:9090']
+```
+Jetzt wird sich Prometheus aber nur selbst überwachen.
+
+C) Den Prometheus-Container laufen lassen
+Bevor wir mit diesem Schritt beginnen, müssen wir überprüfen, ob bereits ein Container läuft der auf dem Port 9090 hört.
+```bash
+$ sudo netstat -tulpn |grep 9090
+```
+Wenn der obere Command keinen Output generiert, läuft kein Container auf dem Port.
+
+Anschliessend müssen wir die User ID von unserem neuen Prometheus-User herausfinden.
+
+```bash
+```
