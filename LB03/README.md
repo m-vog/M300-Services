@@ -10,9 +10,10 @@ Laura Weber hat im Voraus noch nicht mit Microservices gearbeitet, aber "schon d
 Wir wollten diese LB mit Kubernetes als Orchestrierungslösung erledigen, leider hatten wir einige Probleme mit Containern die persistent Volume Claims brauchen. Container wie einfache Webserver funktionierten ohne Probleme. Da diese LB aber einen höheren Anspruch hat, als einen einfachen "Hello World" Webserver und wir dem gerecht werden wollten, haben wir uns dazu entschieden mit Docker fortzufahren.
 
 ### Umgebung
-Der Einfachheit halber, haben wir zusammen auf der VM von Marc Vogelmann gearbeitet (192.168.133.24) Auch der Einfachheit halber, ist alles auf dem Repository von Marc Vogelmann abgelegt und dokumentiert.
+Da Laura Weber immer wieder Probleme mit ihrem Repository hatte, haben wir zusammen auf der VM von Marc Vogelmann gearbeitet (192.168.133.24). Die Dokumentationen sind diesselben, jedoch auf beiden Repositories abgelegt.
 Auf der VM der TBZ-Cloud läuft ein Ubuntu 20.04 Server mit dem 4.15.0 Kernel.
 Die Dockerversion ist 19.03.6.
+Da wir Probleme mit der VM von der TBZ-Cloud hatten, haben wir auf Marcs Server eine neue VM erstellt. Diese VM hat dieselben Spezifikationen wie die VM der TBZ-Cloud.
 
 ### K1
 Siehe LB02
@@ -171,3 +172,11 @@ gfre156415ea78      prom/prometheus     "/bin/prometheus --con.."       About a 
 Auf das Web-GUI kann man über <IP>:9090 zugreifen.
 Das GUI sieht wie folgt aus:
 ![Prometheus GUI](https://github.com/m-vog/M300-Services/blob/master/LB03/img/prometheus.png)
+
+#### Security & Best Practices
+Das grösste Sicherheitsproblem von Docker ist der Daemon - aber nur wenn er falsch konfiguriert ist.
+Hier sind die best practices für die gewährleistung der Sicherheit:
+1. Docker immer aktuell halten
+2. Integrität der Container-Images überprüfen
+3. Monitoring der Docker-Container
+4. 
