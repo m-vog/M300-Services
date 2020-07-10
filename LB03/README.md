@@ -175,8 +175,27 @@ Das GUI sieht wie folgt aus:
 
 #### Security & Best Practices
 Das grösste Sicherheitsproblem von Docker ist der Daemon - aber nur wenn er falsch konfiguriert ist.
-Hier sind die best practices für die gewährleistung der Sicherheit:
+Hier sind einige Security-Challenges:
+1. Microservices - mehr Netzwerkverkehr und komplexere Netzwerkstruktur
+2. Integrität der Container-Images 
+3. Monitoring der Docker-Container
+4. Isolation von Containern, denn Container sind nicht isoliert so wie VMs. Ein kompromittierter Container kann dafür sorgen, dass alle anderen Container auch kompromittiert werden.
+5. Konfigurationen der Container ist wichtig. Falls ein Container falsch konfiguriert wird, z.B. mit zu vielen Berechtigungen, bietet dies eine Sicherheitslücke.
+
+Hier sind einige Docker-Security best practices:
 1. Docker immer aktuell halten
 2. Integrität der Container-Images überprüfen
-3. Monitoring der Docker-Container
-4. 
+3. Absichern aller Docker-Files und Ordner
+4. File-Permissions restriktiv setzen
+5. Container als nicht-root Benutzer laufen lassen
+6. Nur vertraute base-images für Container verwenden
+7. Minimale Images verwenden. Unnötige Softwarepackages auf den Images verbreitern die Angriffsfläche
+8. Secrets NIE auf einem Docker-Image speichern.
+
+Wir haben diese Tips aufgeschrieben, leider konnten wir aber nicht alle umsetzen, da wir viel Zeit mit dem Troubleshooting von Prometheus gebraucht haben.
+
+### K5
+#### Wissenszuwachs und Reflexion
+##### Laura Weber
+##### Marc Vogelmann
+Zu Beginn wollten wir diese LB mit Kubernetes durchführen. Nach einigen Stunden Troubleshooting mit einigen Containern, haben wir uns aber dafür entschieden Docker zu verwenden. Ich habe bereits einige Male mit Kubernetes gearbeitet, aber nie "richtig" mit Docker. Ich habe viel Neues über Docker gelernt. Auch durch den Einfluss durch das Wahlmodul W906 weiss ich jetzt, wie ich z.B. Docker-Images erstellen und auf docker-hub bereitstellen kann. Das Modul war ein wenig unübersichtlich, jedoch konnten wir mit Herrn Calisto über dieses Problem reden und dieses auch klären. Die Kriterien waren relativ schwammig definiert, was einerseits zu Unklarheiten führte, andererseits uns viel Freiheit in der Umsetzung dieses Projektes liess.
