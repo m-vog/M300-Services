@@ -85,6 +85,9 @@ Ein fixfertiges Image ist bereits auf Dockerhub erhältlich. Mit dem folgendem B
 
 ![minecraft server](https://github.com/m-vog/M300-Services/blob/master/LB03/img/mc.png)
 
+#### Docker-Befehle Cheat Sheet
+![Docker Cheat Sheet](https://github.com/m-vog/M300-Services/blob/master/LB03/img/dockercheatsheet.png)
+
 ### K4
 #### Überwachung und Benachrichtigung
 Konzept: Prometheus-Container als Überwachungstool, Grafana als Visualisierungstool
